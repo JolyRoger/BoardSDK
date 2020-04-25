@@ -1,17 +1,24 @@
 package org.board.sdk.base
 
 import scala.io.Source
-import scala.util.{Failure, Success, Using}
+import scala.util.{Failure, Success, Try, Using}
 
 object Util {
 
-    def read(filename: String): List[String] = {
-      Using(Source.fromFile(filename)) { _.getLines } match {
-        case Success(lines) => lines.toList
-        case Failure(e) => {
-          Console.err.println(s"${e.getMessage}")
-          List.empty
-        }
-      }
+  def readAsList(filename: String): List[String] = {
+    readAsTry(filename) match {
+      case Success(lines) => lines
+      case Failure(e) =>
+        Console.err.println(s"${e.getMessage}")
+        List.empty
     }
+  }
+
+  def readAsTry(filename: String): Try[List[String]] = {
+    Using(Source.fromFile(filename)) { _.getLines.toList }
+  }
+
+  def linesToBoard(lines: List[String]): Board = {
+    new Board(lines, '.', 'x')
+  }
 }

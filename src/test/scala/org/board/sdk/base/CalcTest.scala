@@ -16,4 +16,22 @@ class CalcTest extends FlatSpec with BeforeAndAfter {
     assert(distSquareDouble === 8.062 +- 0.01)
     assert(distSquareInt === 6.0 +- 0.01)
   }
+
+  "Util" should "read lines from file" in {
+    val lines = Util.readAsList("resources/board-15x15.txt")
+    val nolines = Util.readAsList("resources/no-such-file.txt")
+    assert(lines.size == 15)
+    assert(nolines.isEmpty)
+  }
+
+  "Calc" should "creat lines structure" in {
+    val lines = Util.readAsList("resources/board-15x15.txt")
+  }
+
+  "Calc" should "creat board from lines" in {
+    val lines = Util.readAsList("resources/board-2x2.txt")
+    val board = Util.linesToBoard(lines)
+    Console.err.println(s"!!!BOARD:")
+    Console.err.println(s"$board")
+  }
 }
