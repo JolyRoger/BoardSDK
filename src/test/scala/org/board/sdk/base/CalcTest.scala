@@ -34,4 +34,12 @@ class CalcTest extends FlatSpec with BeforeAndAfter {
     Console.err.println(s"!!!BOARD:")
     Console.err.println(s"$board")
   }
+
+  "Game" should "take square" in {
+    val lines = Util.readAsList("resources/board-2x2.txt")
+    val board = Util.linesToBoard(lines)
+    val game = new Game(board)
+    val square = game.neighbours(0,1)
+    Console.err.println(s"$square")
+  }
 }

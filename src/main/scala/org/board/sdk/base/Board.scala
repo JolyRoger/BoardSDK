@@ -2,6 +2,8 @@ package org.board.sdk.base
 
 class Board(val squareMatrix: Array[Array[Square]]) {
 
+  val transposedMatrix = transpose(squareMatrix)
+
   def this(charData: Array[Array[Char]], air: Char, rock: Char) = {
     this(charData.zipWithIndex.map(arrIndex => arrIndex._1.zipWithIndex.map(
       symIndex => if (symIndex._1 == air) AirSquare(symIndex._2, arrIndex._2, symIndex._1) else
@@ -12,8 +14,16 @@ class Board(val squareMatrix: Array[Array[Square]]) {
     this(rawData.map(_.toCharArray).toArray, air, rock)
   }
 
+  def apply(x: Int): Array[Square] = transposedMatrix(x)
+
+  private def transpose(matrix: Array[Array[Square]]): Array[Array[Square]] = {
+    matrix.head.indices.map(i => matrix.map(_(i))).toArray
+  }
+
+  def neighbours() = ???
+
   override def toString: String = {
-    (squareMatrix.map(row => row.map(_.sym.toString).reduce(_ + _))).mkString("\n")
+    squareMatrix.map(row => row.map(_.sym).mkString("")).mkString("\n")
   }
 
 }
