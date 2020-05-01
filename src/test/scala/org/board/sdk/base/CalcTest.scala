@@ -3,6 +3,7 @@ package org.board.sdk.base
 import org.scalatest.{BeforeAndAfter, FlatSpec}
 import org.scalactic._
 import Tolerance._
+import org.board.sdk.base.Direction.Direction
 
 class CalcTest extends FlatSpec with BeforeAndAfter {
 
@@ -35,8 +36,12 @@ class CalcTest extends FlatSpec with BeforeAndAfter {
     Console.err.println(s"$board")
   }
 
-  "Game" should "take square" in {
-    val lines = Util.readAsList("resources/board-2x2.txt")
+  "Game" should "take square neighbours" in {
+    implicit val defaultStep: Int = 1
+    implicit val defaultDirection: Set[Direction] = Set(Direction.North)
+    implicit val defaultValid: Square => Boolean = _ => true
+
+    val lines = Util.readAsList("resources/board-5x5.txt")
     val board = Util.linesToBoard(lines)
     val game = new Game(board)
     val square = game.neighbours(0,1)
