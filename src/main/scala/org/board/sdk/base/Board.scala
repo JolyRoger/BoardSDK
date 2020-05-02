@@ -20,7 +20,14 @@ class Board(val squareMatrix: Array[Array[Square]]) {
     matrix.head.indices.map(i => matrix.map(_(i))).toArray
   }
 
-  def neighbours() = ???
+
+  def show(squares: Set[Square]): Unit = {
+    Console.err.println(s"${toString(squares)}")
+  }
+
+  private def toString(squares: Set[Square]): String = {
+    squareMatrix.map(row => row.map(s => if (squares.contains(s)) '\u25AE' else s.sym).mkString("")).mkString("\n")
+  }
 
   override def toString: String = {
     squareMatrix.map(row => row.map(_.sym).mkString("")).mkString("\n")

@@ -1,11 +1,12 @@
 package org.board.sdk.base
 
-import org.scalatest.{BeforeAndAfter, FlatSpec}
+import org.scalatest.BeforeAndAfter
 import org.scalactic._
 import Tolerance._
-import org.board.sdk.base.Direction.Direction
+import org.board.sdk.base.Direction._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class CalcTest extends FlatSpec with BeforeAndAfter {
+class CalcTest extends AnyFlatSpec with BeforeAndAfter {
 
   "Calc" should "calculate euclidean diastance" in {
     val distTupleDouble = Calc.euclidean((0,0), (1,1))
@@ -37,14 +38,15 @@ class CalcTest extends FlatSpec with BeforeAndAfter {
   }
 
   "Game" should "take square neighbours" in {
-    implicit val defaultStep: Int = 1
-    implicit val defaultDirection: Set[Direction] = Set(Direction.North)
-    implicit val defaultValid: Square => Boolean = _ => true
+    val cardinal = Set(North, South, West, East)
+    val ordinal = Set(NorthWest, SouthWest, SouthEast, NorthEast)
+    val windrose = cardinal ++ ordinal
 
-    val lines = Util.readAsList("resources/board-5x5.txt")
+    val lines = Util.readAsList("resources/board-15x15.txt")
     val board = Util.linesToBoard(lines)
     val game = new Game(board)
-    val square = game.neighbours(0,1)
-    Console.err.println(s"$square")
+    val squares = game.neighboursWhile(8,8, windrose, 10, _.isInstanceOf[AirSquare])
+    Console.err.println(s"$squares")
+    board.show(squares)
   }
 }
