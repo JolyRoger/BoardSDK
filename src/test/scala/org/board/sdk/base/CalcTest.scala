@@ -45,8 +45,8 @@ class CalcTest extends AnyFlatSpec with BeforeAndAfter {
     val lines = Util.readAsList("resources/board-15x15.txt")
     val board = Util.linesToBoard(lines)
     val game = new Game(board)
-    val squares = game.neighboursWhile(8,8, windrose, 10, _.isInstanceOf[AirSquare])
+    val squares = game.neighboursWithDirectionWhile(8,8, windrose, 10, _.isInstanceOf[AirSquare])
     Console.err.println(s"$squares")
-    board.show(squares)
+    board.show(squares.map(_._1))
   }
 }
