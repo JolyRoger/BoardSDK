@@ -1,12 +1,13 @@
 package org.board.sdk.base
 
-import org.board.sdk.base.Direction.{Direction, East, North, NorthEast, NorthWest, South, SouthEast, SouthWest, West}
+import org.board.sdk.base.Direction._
 
 trait Neighbours extends AbstractGame {
 
   implicit val defaultStep: Int = 1
   implicit val defaultDirection: Set[Direction] = cardinal
   implicit val defaultValid: Square => Boolean = _ => true
+
 
   private def collectSquares(x: Int, y: Int, direction: Direction, step: Int, valid: Square => Boolean) = {
     (for (i <- 1 to step) yield takeRawSquareTry(x, y, direction, i)).collect {

@@ -31,7 +31,7 @@ class CalcTest extends AnyFlatSpec with BeforeAndAfter {
   }
 
   "Calc" should "creat board from lines" in {
-    val lines = Util.readAsList("resources/board-2x2.txt")
+    val lines = Util.readAsList("resources/board-15x15.txt")
     val board = Util.linesToBoard(lines)
     Console.err.println(s"!!!BOARD:")
     Console.err.println(s"$board")
@@ -48,5 +48,15 @@ class CalcTest extends AnyFlatSpec with BeforeAndAfter {
     val squares = game.neighboursWithDirectionWhile(8,8, windrose, 10, _.isInstanceOf[AirSquare])
     Console.err.println(s"$squares")
     board.show(squares.map(_._1))
+  }
+
+  "Game" should "do dfs" in {
+    val cardinal = Set(North, South, West, East)
+    val lines = Util.readAsList("resources/board-15x15.txt")
+    val board = Util.linesToBoard(lines)
+    val game = new Game(board)
+    val reachableSquares = game.reachableFrom(board(2)(0), 4)
+    board.show(reachableSquares)
+    Console.err.println(s"$reachableSquares")
   }
 }

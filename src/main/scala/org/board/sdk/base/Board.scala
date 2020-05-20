@@ -3,11 +3,22 @@ package org.board.sdk.base
 class Board(val squareMatrix: Array[Array[Square]]) {
 
   val transposedMatrix = transpose(squareMatrix)
+  val width = transposedMatrix.length
+  val height = squareMatrix.length
+  lazy val squares = squareMatrix.flatten.toSet
+  lazy val size = squares.size
 
   def this(charData: Array[Array[Char]], air: Char, rock: Char) = {
-    this(charData.zipWithIndex.map(arrIndex => arrIndex._1.zipWithIndex.map(
-      symIndex => if (symIndex._1 == air) AirSquare(symIndex._2, arrIndex._2, symIndex._1) else
-                                          RockSquare(symIndex._2, arrIndex._2, symIndex._1))))
+    this {
+      var index = 0
+      charData.zipWithIndex.map(arrIndex => arrIndex._1.zipWithIndex.map(
+        symIndex => {
+          index += 1
+          if (symIndex._1 == air)
+            AirSquare(symIndex._2, arrIndex._2, symIndex._1, index) else
+            RockSquare(symIndex._2, arrIndex._2, symIndex._1, index)
+        }))
+    }
   }
 
   def this(rawData: List[String], air: Char, rock: Char) = {
