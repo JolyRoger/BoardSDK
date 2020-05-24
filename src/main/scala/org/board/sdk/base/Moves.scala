@@ -23,12 +23,11 @@ trait Moves extends AbstractGame {
       marked += e
       val neighbours = cardinal.map(takeRawSquareTry(e.x, e.y, _, 1)).collect {
         case res if res.isSuccess => res.get
-      }.filterNot(square => square.rock || marked.contains(square))
-      Console.err.println(s"for $e neighbours are $neighbours")
+      }.filterNot(square => square.rock || (marked.contains(square) && (square.num + 1 <= e.num)))
       neighbours.foreach(_.num = e.num + 1)
+      marked ++= neighbours
       out ++= neighbours
       stack = neighbours.filter(_.num < depth).toList ::: stack.tail
-      Console.err.println(s"\tstack: $stack")
     }
     out
   }
