@@ -51,12 +51,17 @@ class CalcTest extends AnyFlatSpec with BeforeAndAfter {
   }
 
   "Game" should "do dfs" in {
-    val cardinal = Set(North, South, West, East)
     val lines = Util.readAsList("resources/board-15x15.txt")
     val board = Util.linesToBoard(lines)
     val game = new Game(board)
-    val reachableSquares = game.reachableFrom(board(10)(9), 8)
-    board.show(reachableSquares)
-    Console.err.println(s"$reachableSquares")
+    Console.err.println(s"BFS")
+    val reachableSquaresBfs = game.bfs(board(2)(0))
+    board.show(reachableSquaresBfs)
+    Console.err.println(s"$reachableSquaresBfs")
+
+    Console.err.println(s"DFS")
+    val reachableSquaresDfs = game.dfs(board(2)(0))
+    board.show(reachableSquaresDfs)
+    Console.err.println(s"$reachableSquaresDfs")
   }
 }
