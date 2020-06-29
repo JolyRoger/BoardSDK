@@ -12,8 +12,8 @@ abstract class AbstractGame(board: Board) {
     direction match {
       case North => Try(board(x)(y - step))
       case South => Try(board(x)(y + step))
-      case West => Try(board(x + step)(y))
-      case East => Try(board(x - step)(y))
+      case West => Try(board(x - step)(y))
+      case East => Try(board(x + step)(y))
       case NorthWest => Try(board(x - step)(y - step))
       case SouthWest => Try(board(x - step)(y + step))
       case NorthEast => Try(board(x + step)(y - step))
